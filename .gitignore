@@ -47,9 +47,9 @@ Desktop.ini
 *.backup*
 *.bak
 
-# Archivos de datos sensibles (descomenta si no quieres versionar datos de usuario)
-# src/persistencia/tareas.json
-# src/persistencia/*.backup*.json
+# Archivos de datos sensibles (no versionar datos de usuario)
+src/persistencia/tareas.json
+src/persistencia/*.backup*.json
 
 # Logs y archivos de debug
 *.out
