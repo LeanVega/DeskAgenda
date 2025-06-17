@@ -1,0 +1,62 @@
+# ==============================================================================
+# GITIGNORE PARA DESKAGENDA
+# ==============================================================================
+
+# Archivos compilados (build artifacts)
+build/
+*.class
+*.jar
+*.war
+*.ear
+
+# Archivos ZIP (excepto los portables oficiales)
+*.zip
+# Permitir los archivos portables oficiales
+!DeskAgenda_Portable.zip
+!DarkAgenda_Portable.zip
+
+# Archivos de NetBeans (configuración local)
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+built-jar.properties
+
+# Archivos de IDE
+.vscode/
+*.code-workspace
+.idea/
+*.iml
+
+# Archivos temporales de Windows
+Thumbs.db
+Desktop.ini
+*.lnk
+
+# Archivos temporales de sistema
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*~
+
+# Archivos de backup automático
+*.backup
+*.backup*
+*.bak
+
+# Archivos de datos sensibles (descomenta si no quieres versionar datos de usuario)
+# src/persistencia/tareas.json
+# src/persistencia/*.backup*.json
+
+# Logs y archivos de debug
+*.out
+debug.log
+error.log
+
+# Archivos específicos de este proyecto que no deben versionarse
+/old_versions/
+/temp/
+/test_data/

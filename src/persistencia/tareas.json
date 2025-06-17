@@ -1,0 +1,5 @@
+[
+  {"nombre":"Primera tarea 🎯","fecha":"2025-06-17","hora":"14:53:19.949326200","tipo":"UNICA","completada":false,"alertaActiva":false,"minutosAntesAlerta":0,"repeticionesCompletadas":0},
+  {"nombre":"Segunda tarea 📋","fecha":"2025-06-18","hora":"14:53:19.958957400","tipo":"DIARIA","completada":false,"alertaActiva":false,"minutosAntesAlerta":0,"repeticionesCompletadas":0},
+  {"nombre":"Tercera tarea ⚡","fecha":"2025-06-19","hora":"14:53:19.961581300","tipo":"SEMANAL","completada":false,"alertaActiva":false,"minutosAntesAlerta":0,"repeticionesCompletadas":0}
+]
