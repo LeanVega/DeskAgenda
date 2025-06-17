@@ -2,13 +2,14 @@
 
 ## 📋 ÍNDICE
 1. [Introducción](#introducción)
-2. [Evolución del Proyecto](#evolución-del-proyecto)
-3. [Arquitectura del Sistema](#arquitectura-del-sistema)
-4. [Sistema de Backup Revolucionario](#sistema-de-backup)
-5. [Estructura del Código](#estructura-del-código)
-6. [Guía de Uso](#guía-de-uso)
-7. [Resolución de Problemas](#resolución-de-problemas)
-8. [Conclusiones](#conclusiones)
+2. [Instalación y Configuración](#instalación-y-configuración)
+3. [Evolución del Proyecto](#evolución-del-proyecto)
+4. [Arquitectura del Sistema](#arquitectura-del-sistema)
+5. [Sistema de Backup Revolucionario](#sistema-de-backup)
+6. [Estructura del Código](#estructura-del-código)
+7. [Guía de Uso](#guía-de-uso)
+8. [Resolución de Problemas](#resolución-de-problemas)
+9. [Conclusiones](#conclusiones)
 
 ---
 
@@ -23,6 +24,40 @@
 - ✅ **Alertas automáticas** con sonido 
 - ✅ **Optimizado para RAM** (funciona con 64MB, y puede ajustarse para que consuma bastante menos con sólo ajustar un valor)
 - ✅ **Portabilidad total** (funciona desde USB. También puede colocar en cualquier disco/carpeta y crear un acceso directo al escritorio)
+
+---
+
+## ⚙️ INSTALACIÓN Y CONFIGURACIÓN
+
+### **Requisitos del Sistema:**
+- **Java JDK 11** o superior
+- **NetBeans IDE** (cualquier versión reciente)
+- **4GB RAM** mínimo (optimizado para funcionar con menos)
+
+### **Instalación desde GitHub:**
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/LeanVega/DeskAgenda.git
+   ```
+
+2. **Configurar archivo de datos:**
+   ```bash
+   cd DeskAgenda/src/persistencia/
+   copy tareas.example.json tareas.json
+   ```
+
+3. **Abrir en NetBeans:**
+   - File → Open Project
+   - Seleccionar la carpeta `DeskAgenda`
+
+4. **Compilar y ejecutar:**
+   - Clean and Build (F11)
+   - Run Project (F6)
+
+### **Instalación Portable:**
+- Descargar `DeskAgenda_Portable.zip` o `DarkAgenda_Portable.zip`
+- Extraer en cualquier ubicación
+- Ejecutar directamente (no requiere instalación)
 
 ---
 
