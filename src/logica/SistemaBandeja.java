@@ -179,28 +179,59 @@ public class SistemaBandeja {
             System.err.println("Error al desregistrar del inicio del sistema: " + e.getMessage());
             return false;
         }
-    }
-    
-    private boolean registrarEnInicioWindows() {
+    }    private boolean registrarEnInicioWindows() {
         try {
             String rutaEjecutable = obtenerRutaEjecutable();
-            String comando = "reg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"DeskAgenda\" /t REG_SZ /d \"" + rutaEjecutable + "\" /f";
+            System.out.println("DEBUG: Ruta ejecutable detectada: " + rutaEjecutable);
             
-            Process proceso = Runtime.getRuntime().exec(comando);
+            // Usar ProcessBuilder para manejar mejor las comillas y espacios
+            ProcessBuilder pb = new ProcessBuilder(
+                "reg", "add", 
+                "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+                "/v", "DeskAgenda",
+                "/t", "REG_SZ", 
+                "/d", rutaEjecutable,
+                "/f"
+            );
+            
+            System.out.println("DEBUG: Comando ProcessBuilder: " + String.join(" ", pb.command()));
+            
+            Process proceso = pb.start();
             int exitCode = proceso.waitFor();
+            
+            // Imprimir el resultado del comando para debug
+            if (exitCode == 0) {
+                System.out.println("DEBUG: Comando reg add exitoso");
+            } else {
+                System.out.println("DEBUG: Comando reg add falló con código: " + exitCode);
+                // Leer error del proceso
+                java.io.BufferedReader errorReader = new java.io.BufferedReader(
+                    new java.io.InputStreamReader(proceso.getErrorStream())
+                );
+                String errorLine;
+                while ((errorLine = errorReader.readLine()) != null) {
+                    System.out.println("DEBUG: Error reg: " + errorLine);
+                }
+            }
             
             return exitCode == 0;
         } catch (Exception e) {
             System.err.println("Error al registrar en Windows: " + e.getMessage());
             return false;
         }
-    }
-    
-    private boolean desregistrarDeInicioWindows() {
+    }private boolean desregistrarDeInicioWindows() {
         try {
-            String comando = "reg delete \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"DeskAgenda\" /f";
+            // Usar ProcessBuilder para mejor manejo de argumentos
+            ProcessBuilder pb = new ProcessBuilder(
+                "reg", "delete",
+                "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", 
+                "/v", "DeskAgenda",
+                "/f"
+            );
             
-            Process proceso = Runtime.getRuntime().exec(comando);
+            System.out.println("DEBUG: Comando desregistrar ProcessBuilder: " + String.join(" ", pb.command()));
+            
+            Process proceso = pb.start();
             int exitCode = proceso.waitFor();
             
             return exitCode == 0;
@@ -297,39 +328,69 @@ public class SistemaBandeja {
             System.err.println("Error al desregistrar de Mac: " + e.getMessage());
             return false;
         }
-    }
-    
-    private String obtenerRutaEjecutable() {
+    }      private String obtenerRutaEjecutable() {
         try {
-            // Primero verificar si hay un archivo .exe en el directorio actual
             String directorioActual = System.getProperty("user.dir");
+            System.out.println("DEBUG: Directorio actual: " + directorioActual);
+            
+            // 1. Verificar si hay un archivo VBS (versión standalone sin consola) - PRIORIDAD
+            File vbsFile = new File(directorioActual, "DeskAgenda.vbs");
+            System.out.println("DEBUG: Buscando VBS en: " + vbsFile.getAbsolutePath() + " - Existe: " + vbsFile.exists());
+            if (vbsFile.exists()) {
+                // Para el registro de Windows, usamos la ruta del VBS directamente
+                // Windows automáticamente usará wscript para archivos .vbs
+                String rutaVbs = vbsFile.getAbsolutePath();
+                System.out.println("DEBUG: Usando VBS (para registro): " + rutaVbs);
+                return rutaVbs;
+            }
+            
+            // 2. Verificar si hay un archivo VBS para portable sin consola
+            File vbsPortableFile = new File(directorioActual, "DeskAgenda-SinConsola.vbs");
+            System.out.println("DEBUG: Buscando VBS portable en: " + vbsPortableFile.getAbsolutePath() + " - Existe: " + vbsPortableFile.exists());
+            if (vbsPortableFile.exists()) {
+                String rutaVbsPortable = vbsPortableFile.getAbsolutePath();
+                System.out.println("DEBUG: Usando VBS portable (sin consola): " + rutaVbsPortable);
+                return rutaVbsPortable;
+            }
+            
+            // 3. Verificar si hay un archivo .bat (versión standalone)
+            File batFile = new File(directorioActual, "DeskAgenda.bat");
+            System.out.println("DEBUG: Buscando BAT en: " + batFile.getAbsolutePath() + " - Existe: " + batFile.exists());
+            if (batFile.exists()) {
+                String rutaBat = batFile.getAbsolutePath();
+                System.out.println("DEBUG: Usando BAT: " + rutaBat);
+                return rutaBat;
+            }
+            
+            // 4. Verificar si hay un archivo .bat con nombre específico (versión portable)
+            File batPortableFile = new File(directorioActual, "Ejecutar-DeskAgenda.bat");
+            System.out.println("DEBUG: Buscando BAT portable en: " + batPortableFile.getAbsolutePath() + " - Existe: " + batPortableFile.exists());
+            if (batPortableFile.exists()) {
+                String rutaBatPortable = batPortableFile.getAbsolutePath();
+                System.out.println("DEBUG: Usando BAT portable: " + rutaBatPortable);
+                return rutaBatPortable;
+            }
+            
+            // 5. Verificar si hay un ejecutable .exe directo
             File exeFile = new File(directorioActual, "DeskAgenda.exe");
+            System.out.println("DEBUG: Buscando EXE en: " + exeFile.getAbsolutePath() + " - Existe: " + exeFile.exists());
             if (exeFile.exists()) {
-                return "\"" + exeFile.getAbsolutePath() + "\"";
+                String rutaExe = exeFile.getAbsolutePath();
+                System.out.println("DEBUG: Usando EXE: " + rutaExe);
+                return rutaExe;
             }
             
-            // Si no hay .exe, verificar la ruta del código fuente actual
-            String jarPath = SistemaBandeja.class.getProtectionDomain()
-                    .getCodeSource().getLocation().toURI().getPath();
+            // 6. Para desarrollo o fallback, usar Java directo
+            String javaHome = System.getProperty("java.home");
+            String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
+            String classpath = System.getProperty("java.class.path");
+            String rutaDesarrollo = "\"" + javaBin + "\" -cp \"" + classpath + "\" logica.AgendaAct";
+            System.out.println("DEBUG: Usando desarrollo: " + rutaDesarrollo);
+            return rutaDesarrollo;
             
-            if (jarPath.endsWith(".jar")) {
-                return "java -jar \"" + jarPath + "\"";
-            } else {
-                // Modo desarrollo - buscar si hay un JAR compilado en el directorio
-                File jarFile = new File(directorioActual, "DeskAgenda.jar");
-                if (jarFile.exists()) {
-                    return "java -jar \"" + jarFile.getAbsolutePath() + "\"";
-                }
-                
-                // Fallback al modo classpath
-                String javaHome = System.getProperty("java.home");
-                String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
-                String classpath = System.getProperty("java.class.path");
-                return "\"" + javaBin + "\" -cp \"" + classpath + "\" igu.VistaPrincipal";
-            }
         } catch (Exception e) {
             System.err.println("Error al obtener ruta del ejecutable: " + e.getMessage());
-            return "java -cp . igu.VistaPrincipal";
+            return "java -cp . logica.AgendaAct";
         }
     }
     

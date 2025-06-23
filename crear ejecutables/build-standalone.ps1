@@ -7,7 +7,7 @@ Write-Host "========================================" -ForegroundColor Green
 
 # Compilar la aplicacion primero
 Write-Host "[1/4] Compilando aplicacion..." -ForegroundColor Cyan
-& .\build-portable.bat
+& ".\crear ejecutables\build-portable.bat"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: Fallo la compilacion" -ForegroundColor Red
     exit 1

@@ -51,6 +51,9 @@ Desktop.ini
 src/persistencia/tareas.json
 src/persistencia/*.backup*.json
 
+# Proteger archivo crítico de persistencia contra cambios accidentales
+src/persistencia/RepositorioJSON.java
+
 # Logs y archivos de debug
 *.out
 debug.log

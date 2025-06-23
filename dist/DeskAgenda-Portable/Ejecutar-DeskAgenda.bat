@@ -1,4 +1,3 @@
 @echo off 
 cd /d "%~dp0" 
-java -jar DeskAgenda.jar 
-pause 
+start /min "" java -jar DeskAgenda.jar
