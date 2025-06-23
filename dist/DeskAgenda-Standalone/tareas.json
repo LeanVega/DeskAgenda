@@ -1,7 +1,0 @@
-[
-  {"nombre":"Turno Joaquín dentista","fecha":"2025-06-26","hora":"15:00","tipo":"UNICA","completada":false,"alertaActiva":true,"minutosAntesAlerta":120,"repeticionesCompletadas":0},
-  {"nombre":"Practicar código 30 minutos","fecha":"2025-06-22","hora":"23:59","tipo":"DIARIA","completada":true,"alertaActiva":false,"minutosAntesAlerta":0,"repeticionesCompletadas":3,"fechaUltimaCompletada":"2025-06-22"},
-  {"nombre":"Hacer ejercicio","fecha":"2025-06-22","hora":"23:59","tipo":"SEMANAL","completada":true,"alertaActiva":false,"minutosAntesAlerta":0,"repeticionesCompletadas":3,"fechaUltimaCompletada":"2025-06-22"},
-  {"nombre":"Turno otro dentista","fecha":"2025-07-10","hora":"15:00","tipo":"UNICA","completada":false,"alertaActiva":true,"minutosAntesAlerta":120,"repeticionesCompletadas":0},
-  {"nombre":"Entrega TP Administración","fecha":"2025-06-17","hora":"23:59","tipo":"UNICA","completada":true,"alertaActiva":true,"minutosAntesAlerta":120,"repeticionesCompletadas":0}
-]
