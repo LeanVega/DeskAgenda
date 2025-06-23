@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Main-Class: igu.VistaPrincipal
+Class-Path: .
+Created-By: DeskAgenda
+Specification-Title: DeskAgenda - Agenda Personal
+Specification-Version: 1.0
+Implementation-Version: 1.0
+

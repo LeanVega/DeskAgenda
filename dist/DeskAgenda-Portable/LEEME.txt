@@ -1,0 +1,7 @@
+DeskAgenda - Version Portable 
+ 
+Para ejecutar: 
+1. Asegurate de tener Java instalado 
+2. Haz doble clic en "Ejecutar-DeskAgenda.bat" 
+ 
+Esta version es portable y puede ejecutarse desde USB 
