@@ -53,10 +53,9 @@ public class Tarea {
     private int repeticionesCompletadas;      // Cuántas veces se hizo (para DIARIA/SEMANAL)
     private LocalDate fechaUltimaCompletada;  // Cuándo se completó por última vez
     private Set<DayOfWeek> diasSemana;        // Qué días se repite (para SEMANAL)
-    
-    // === SISTEMA DE ALERTAS ===
+      // === SISTEMA DE ALERTAS ===
     private boolean alertaActiva;             // Si debe mostrar alertas
-    private int minutosAntesAlerta;           // Cuántos minutos antes avisar
+    private int segundosAntesAlerta;          // Cuántos segundos antes avisar
 
     // === FORMATEADORES PARA MOSTRAR FECHAS EN FORMATO ESPAÑOL ===
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -99,7 +98,7 @@ public class Tarea {
         this.tipo = tipo;
         this.completada = false;
         this.alertaActiva = false;
-        this.minutosAntesAlerta = 0;
+        this.segundosAntesAlerta = 0;
         this.diasSemana = Set.of();
         this.repeticionesCompletadas = 0;
     }
@@ -112,7 +111,10 @@ public class Tarea {
     public TipoTarea getTipo() { return tipo; }
     public boolean isCompletada() { return completada; }
     public boolean isAlertaActiva() { return alertaActiva; }
-    public int getMinutosAntesAlerta() { return minutosAntesAlerta; }
+    public int getSegundosAntesAlerta() { return segundosAntesAlerta; }
+    
+    // Método de compatibilidad para código existente que usa minutos
+    public int getMinutosAntesAlerta() { return segundosAntesAlerta / 60; }
     public Set<DayOfWeek> getDiasSemana() { return diasSemana; }
     public int getRepeticionesCompletadas() { return repeticionesCompletadas; } 
     public LocalDate getFechaUltimaCompletada() { return fechaUltimaCompletada; }
@@ -124,7 +126,10 @@ public class Tarea {
     public void setTipo(TipoTarea tipo) { this.tipo = tipo; }
     public void setCompletada(boolean completada) { this.completada = completada; }
     public void setAlertaActiva(boolean alertaActiva) { this.alertaActiva = alertaActiva; }
-    public void setMinutosAntesAlerta(int minutosAntesAlerta) { this.minutosAntesAlerta = minutosAntesAlerta; }
+    public void setSegundosAntesAlerta(int segundosAntesAlerta) { this.segundosAntesAlerta = segundosAntesAlerta; }
+    
+    // Método de compatibilidad para código existente que usa minutos
+    public void setMinutosAntesAlerta(int minutosAntesAlerta) { this.segundosAntesAlerta = minutosAntesAlerta * 60; }
     public void setDiasSemana(Set<DayOfWeek> diasSemana) { this.diasSemana = diasSemana; }
     public void setRepeticionesCompletadas(int repeticionesCompletadas) { this.repeticionesCompletadas = repeticionesCompletadas; }
     public void setFechaUltimaCompletada(LocalDate fechaUltimaCompletada) { this.fechaUltimaCompletada = fechaUltimaCompletada; }

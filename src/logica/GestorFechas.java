@@ -48,12 +48,17 @@ public class GestorFechas {
         for (Tarea tarea : tareas) {
             if (!tarea.isCompletada() && tarea.isAlertaActiva()) {
                 LocalDateTime fechaHoraTarea = LocalDateTime.of(tarea.getFecha(), tarea.getHora());
-                // Alertar 5 minutos ANTES del vencimiento
-                LocalDateTime tiempoAlerta = fechaHoraTarea.minusMinutes(5);
+                // Usar la configuración real de segundos antes de alerta de la tarea
+                int segundosAntes = tarea.getSegundosAntesAlerta();
+                LocalDateTime tiempoAlerta = fechaHoraTarea.minusSeconds(segundosAntes);
                 
                 // Verificar si es tiempo de alertar
                 if (ahora.isAfter(tiempoAlerta) && ahora.isBefore(fechaHoraTarea.plusMinutes(1))) {
-                    System.out.println("¡Alerta! Tarea próxima: " + tarea.getNombre() + " a las " + tarea.getHoraTexto());                    if (gestorSonido != null) {
+                    int minutos = segundosAntes / 60;
+                    int segundos = segundosAntes % 60;
+                    String tiempoTexto = minutos > 0 ? minutos + " min " + segundos + " seg" : segundos + " seg";
+                    System.out.println("¡Alerta! Tarea próxima: " + tarea.getNombre() + " a las " + tarea.getHoraTexto() + " (alertando " + tiempoTexto + " antes)");
+                    if (gestorSonido != null) {
                         gestorSonido.reproducirSonido();
                     }
                     tarea.setAlertaActiva(false);

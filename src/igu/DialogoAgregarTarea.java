@@ -385,8 +385,9 @@ public class DialogoAgregarTarea extends JDialog {
             int horasAntes = (Integer) spnHorasAlerta.getValue();
             int minutosAntes = (Integer) spnMinutosAlerta.getValue();
             int segundosAntes = (Integer) spnSegundosAlerta.getValue();
-            int totalMinutosAntes = (horasAntes * 60) + minutosAntes + (segundosAntes / 60); 
-            tareaResultado.setMinutosAntesAlerta(totalMinutosAntes);
+            // Convertir todo a segundos totales
+            int totalSegundosAntes = (horasAntes * 3600) + (minutosAntes * 60) + segundosAntes; 
+            tareaResultado.setSegundosAntesAlerta(totalSegundosAntes);
         }
     }
       private void cargarDatosTarea(Tarea tarea) {
@@ -408,10 +409,10 @@ public class DialogoAgregarTarea extends JDialog {
         chkAlerta.setSelected(tarea.isAlertaActiva());
         panelAlerta.setVisible(tarea.isAlertaActiva());
         if (tarea.isAlertaActiva()) {
-            int totalMinutos = tarea.getMinutosAntesAlerta();
-            spnHorasAlerta.setValue(totalMinutos / 60);
-            spnMinutosAlerta.setValue(totalMinutos % 60);
-            spnSegundosAlerta.setValue(0); 
+            int totalSegundos = tarea.getSegundosAntesAlerta();
+            spnHorasAlerta.setValue(totalSegundos / 3600);
+            spnMinutosAlerta.setValue((totalSegundos % 3600) / 60);
+            spnSegundosAlerta.setValue(totalSegundos % 60);
         }
         if (tarea.getTipo() == Tarea.TipoTarea.SEMANAL && tarea.getDiasSemana() != null) {
             for (DayOfWeek dow : tarea.getDiasSemana()) {
